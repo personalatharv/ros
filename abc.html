@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rose Day for Aarvi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffebee 0%, #fce4ec 100%);
+            color: #880e4f;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header and title */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            color: #d81b60;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .heart-title {
+            font-size: 4rem;
+            margin-top: 10px;
+            animation: heartbeat 1.5s infinite;
+            display: inline-block;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* Photo gallery */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0 80px;
+        }
+        
+        .photo-card {
+            width: 300px;
+            height: 380px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+            position: relative;
+        }
+        
+        .photo-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .photo-card:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+        
+        .photo-card:nth-child(2) {
+            transition-delay: 0.3s;
+        }
+        
+        .photo-card:nth-child(3) {
+            transition-delay: 0.5s;
+        }
+        
+        .photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s;
+        }
+        
+        .photo-card:hover .photo-img {
+            transform: scale(1.08);
+        }
+        
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(216, 27, 96, 0.9), rgba(216, 27, 96, 0.7));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        /* Message section */
+        .message-section {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 30px;
+            padding: 50px;
+            margin: 50px auto;
+            max-width: 850px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+            border: 2px solid rgba(216, 27, 96, 0.1);
+        }
+        
+        .message-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .message-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #c2185b;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .message-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #d81b60, transparent);
+        }
+        
+        .message-text {
+            font-size: 1.4rem;
+            line-height: 1.7;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #555;
+        }
+        
+        .message-text.highlight {
+            color: #d81b60;
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin: 30px 0;
+        }
+        
+        .signature {
+            text-align: right;
+            font-size: 1.8rem;
+            font-style: italic;
+            color: #ad1457;
+            margin-top: 40px;
+            padding-right: 20px;
+        }
+        
+        /* Music player */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50px;
+            padding: 12px 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            border: 1px solid rgba(216, 27, 96, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .music-player:hover {
+            transform: translateY(-5px);
+        }
+        
+        .music-btn {
+            background: linear-gradient(to right, #d81b60, #ad1457);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(216, 27, 96, 0.3);
+        }
+        
+        .music-btn:hover {
+            background: linear-gradient(to right, #ad1457, #880e4f);
+            transform: scale(1.1);
+        }
+        
+        .music-info {
+            font-size: 1rem;
+            color: #880e4f;
+            font-weight: 500;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 70px;
+            padding: 25px;
+            color: #ab47bc;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        
+        footer p {
+            margin-bottom: 10px;
+        }
+        
+        .rose-emoji {
+            font-size: 1.8rem;
+            animation: floatRose 0 s ease-in-out;
+            display: inline-block;
+        }
+        
+        @keyframes floatRose {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(10deg); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 900px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .gallery {
+                gap: 25px;
+            }
+            
+            .photo-card {
+                width: 85%;
+                max-width: 350px;
+                height: 400px;
+            }
+            
+            .message-section {
+                padding: 35px;
+                margin: 30px 20px;
+            }
+            
+            .message-title {
+                font-size: 2rem;
+            }
+            
+            .message-text {
+                font-size: 1.2rem;
+            }
+            
+            .music-player {
+                bottom: 15px;
+                right: 15px;
+                padding: 10px 20px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.3rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .heart-title {
+                font-size: 3rem;
+            }
+            
+            .photo-card {
+                height: 350px;
+            }
+            
+            .photo-caption {
+                padding: 15px;
+                font-size: 1.1rem;
+            }
+            
+            .message-section {
+                padding: 25px;
+            }
+            
+            .message-title {
+                font-size: 1.8rem;
+            }
+            
+            .message-text {
+                font-size: 1.1rem;
+            }
+            
+            .signature {
+                font-size: 1.5rem;
+            }
+            
+            .music-player {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                justify-content: center;
+            }
+        }
+        
+        /* Heart animation */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .heart {
+            position: absolute;
+            color: rgba(216, 27, 96, 0.4);
+            font-size: 24px;
+            animation: floatHeart 6s infinite ease-in-out;
+        }
+        
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Decorative elements */
+        .decoration {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .decoration-line {
+            display: inline-block;
+            width: 80px;
+            height: 2px;
+            background: #d81b60;
+            margin: 0 15px;
+            vertical-align: middle;
+        }
+        
+        .decoration-text {
+            font-size: 1.8rem;
+            color: #d81b60;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+        
+        /* Love quote section */
+        .love-quote {
+            text-align: center;
+            margin: 40px auto;
+            padding: 25px;
+            max-width: 700px;
+            font-style: italic;
+            font-size: 1.5rem;
+            color: #ad1457;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+            transition-delay: 0.5s;
+        }
+        
+        .love-quote.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .quote-icon {
+            font-size: 2rem;
+            margin: 0 10px;
+            color: #f06292;
+            vertical-align: middle;
+        }
+        
+        /* Music loading indicator */
+        .music-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s;
+        }
+        
+        .music-loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader {
+            text-align: center;
+            color: #d81b60;
+        }
+        
+        .loader-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #d81b60;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Music loading screen -->
+    <div class="music-loading" id="musicLoading">
+        <div class="loader">
+            <div class="loader-spinner"></div>
+            <h3>Loading your special music, Aarvi...</h3>
+            <p>Music will start automatically</p>
+        </div>
+    </div>
+    
+    <div class="hearts-container" id="hearts"></div>
+    
+    <header>
+        <div class="container">
+            <h1>Happy Rose Day, My Aarvi! <span class="rose-emoji">🌹</span></h1>
+            <p class="subtitle">A day to celebrate the beautiful love we share</p>
+            <div class="heart-title">🌹</div>
+            
+            <div class="decoration">
+                
+                <span class="decoration-text">FOR YOU</span>
+                
+            </div>
+        </div>
+    </header>
+    
+    <section class="gallery container">
+        <div class="photo-card">
+            <img src="WhatsApp Image 2026-02-06 at 1.02.17 AM.jpeg" alt="Our First Meeting" class="photo-img">
+            <div class="photo-caption">The First Time We Met :)</div>
+        </div>
+        <div class="photo-card">
+            <img src="WhatsApp Image 2026-02-06 at 1.05.41 AM.jpeg" alt="Aarvi" class="photo-img">
+            <div class="photo-caption">The love of my life 💗</div>
+        </div>
+        <div class="photo-card">
+            <img src="WhatsApp Image 2026-02-06 at 1.06.55 AM.jpeg" alt="Together" class="photo-img">
+            <div class="photo-caption">One Of My Favourite Pics Of Us Together 💌</div>
+        </div>
+    </section>
+    
+    <div class="love-quote container">
+        <i class="fas fa-quote-left quote-icon"></i>
+        Every rose I could ever give you would never be enough to express how much I love you Aarvi
+        <i class="fas fa-quote-right quote-icon"></i>
+    </div>
+    
+    <section class="message-section container">
+        <h2 class="message-title">My Aarvi,</h2>
+        <p class="message-text">Happy Rose Day Aarvi, I know surprise toh already pata chal gaya hai but issokay 💔 I just wanted to tell you how incredibly grateful I am to have you in my life. Thank you for being not only my girlfriend but my best friend, my biggest supporter, my hype girlie and my BIGGEST source of happiness :)</p>
+        
+        <p class="message-text">My love for you is just like exponential graph increasing day by day (sori😭😭) You just keep asking what gifts do I want but seriously Aarvi I dont want anything because your love is the biggest gift that I've ever received 💗💗</p>
+        
+        <p class="message-text highlight">You are the rose in my garden of life</p>
+        
+        <p class="message-text">I cherish every moment we've spent together, from our silly inside jokes to our deep conversations about life and dreams. You understand me in ways no one else ever has, and I feel so lucky to be loved by you.</p>
+        
+        <p class="message-text">I promise to always respect you, support you, and love you more with each passing day. No matter what challenges life brings I will always be by your side <3</p>
+        
+        <p class="message-text">Thank you for being you, thank you for your kindness, your patience, your support, and your beautiful heart. You make me want to be a better person every single day because I dont want to lose you :)</p>
+        
+        <div class="signature">With all my love<br>Atharv</div>
+    </section>
+    
+    <footer>
+        <p>Every day with you is a blessing. I love you more than words can express.</p>
+        <p class="rose-emoji">🌹🌹🌹</p>
+    </footer>
+    
+    <div class="music-player">
+        <button class="music-btn" id="playBtn">
+            <i class="fas fa-pause"></i>
+        </button>
+        <div class="music-info">Now Playing: "Rabb Bhi Gawah"</div>
+    </div>
+    
+    <!-- Audio with autoplay -->
+    <audio id="bgMusic" autoplay loop>
+        <source src="Rabb Bhi Gawah _ Wedding Song _ Manas Kamble _ Manas Abhiram _ Uday Pachouri _ Ajivasan Sounds.mp3" type="audio/mpeg">
+        <source src="https://assets.codepen.io/1468070/romantic-music.ogg" type="audio/ogg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bgMusic = document.getElementById('bgMusic');
+            const playBtn = document.getElementById('playBtn');
+            const playIcon = playBtn.querySelector('i');
+            const photoCards = document.querySelectorAll('.photo-card');
+            const messageSection = document.querySelector('.message-section');
+            const loveQuote = document.querySelector('.love-quote');
+            const heartsContainer = document.getElementById('hearts');
+            const musicLoading = document.getElementById('musicLoading');
+            
+            // Set music to autoplay
+            bgMusic.autoplay = true;
+            bgMusic.loop = true;
+            
+            // Try to play music immediately
+            const playPromise = bgMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Music started playing
+                    console.log("Music playing automatically");
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                    
+                    // Hide loading screen after a short delay
+                    setTimeout(() => {
+                        musicLoading.classList.add('hidden');
+                    }, 1000);
+                }).catch(error => {
+                    // Autoplay was prevented - show message
+                    console.log("Autoplay prevented, user interaction required");
+                    musicLoading.innerHTML = `
+                        <div class="loader">
+                            <div style="font-size: 3rem; margin-bottom: 20px;">🎵</div>
+                            <h3>Click anywhere to start the music</h3>
+                            <p>This website has special music for You 🌹</p>
+                        </div>
+                    `;
+                    
+                    // Wait for user interaction
+                    document.addEventListener('click', function initAudio() {
+                        bgMusic.play();
+                        playIcon.classList.remove('fa-play');
+                        playIcon.classList.add('fa-pause');
+                        musicLoading.classList.add('hidden');
+                        document.removeEventListener('click', initAudio);
+                    }, { once: true });
+                });
+            }
+            
+            // Button click toggles play/pause
+            playBtn.addEventListener('click', function() {
+                if (bgMusic.paused) {
+                    bgMusic.play();
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                } else {
+                    bgMusic.pause();
+                    playIcon.classList.remove('fa-pause');
+                    playIcon.classList.add('fa-play');
+                }
+            });
+            
+            // Scroll animations for photo cards, message, and quote
+            function checkScroll() {
+                const windowHeight = window.innerHeight;
+                const scrollY = window.scrollY || window.pageYOffset;
+                
+                // Check photo cards
+                photoCards.forEach(card => {
+                    const cardTop = card.getBoundingClientRect().top + scrollY;
+                    if (scrollY + windowHeight * 0.85 > cardTop) {
+                        card.classList.add('visible');
+                    }
+                });
+                
+                // Check message section
+                const messageTop = messageSection.getBoundingClientRect().top + scrollY;
+                if (scrollY + windowHeight * 0.85 > messageTop) {
+                    messageSection.classList.add('visible');
+                }
+                
+                // Check love quote
+                const quoteTop = loveQuote.getBoundingClientRect().top + scrollY;
+                if (scrollY + windowHeight * 0.85 > quoteTop) {
+                    loveQuote.classList.add('visible');
+                }
+            }
+            
+            window.addEventListener('scroll', checkScroll);
+            window.addEventListener('resize', checkScroll);
+            checkScroll(); // Initial check
+            
+            // Create floating hearts
+            function createHearts() {
+                for (let i = 0; i < 25; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = '❤';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (Math.random() * 25 + 20) + 'px';
+                    heart.style.animationDelay = Math.random() * 5 + 's';
+                    heart.style.opacity = Math.random() * 0.5 + 0.2;
+                    heartsContainer.appendChild(heart);
+                }
+            }
+            
+            createHearts();
+            
+            // Add click effect to create hearts
+            document.addEventListener('click', function(e) {
+                // Only create hearts if not clicking on music player
+                if (!e.target.closest('.music-player')) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = '❤';
+                    heart.style.left = e.pageX + 'px';
+                    heart.style.top = e.pageY + 'px';
+                    heart.style.position = 'fixed';
+                    heart.style.fontSize = '30px';
+                    heart.style.animation = 'floatHeart 3s forwards';
+                    heart.style.zIndex = '1000';
+                    heart.style.pointerEvents = 'none';
+                    
+                    document.body.appendChild(heart);
+                    
+                    // Remove heart after animation
+                    setTimeout(() => {
+                        if (heart.parentNode) {
+                            heart.parentNode.removeChild(heart);
+                        }
+                    }, 3000);
+                }
+            });
+            
+            // Add a special message when clicking on the title
+            const title = document.querySelector('h1');
+            title.addEventListener('click', function() {
+                const surpriseMsg = document.createElement('div');
+                surpriseMsg.style.position = 'fixed';
+                surpriseMsg.style.top = '50%';
+                surpriseMsg.style.left = '50%';
+                surpriseMsg.style.transform = 'translate(-50%, -50%)';
+                surpriseMsg.style.backgroundColor = 'rgba(216, 27, 96, 0.95)';
+                surpriseMsg.style.color = 'white';
+                surpriseMsg.style.padding = '25px 40px';
+                surpriseMsg.style.borderRadius = '20px';
+                surpriseMsg.style.fontSize = '2rem';
+                surpriseMsg.style.zIndex = '1000';
+                surpriseMsg.style.boxShadow = '0 15px 40px rgba(0,0,0,0.3)';
+                surpriseMsg.style.textAlign = 'center';
+                surpriseMsg.style.maxWidth = '90%';
+                surpriseMsg.innerHTML = 'I Love You, Aarvi! 💖<br><small style="font-size: 1.2rem; opacity: 0.9;">You mean everything to me</small>';
+                
+                document.body.appendChild(surpriseMsg);
+                
+                setTimeout(() => {
+                    surpriseMsg.style.transition = 'opacity 0.5s';
+                    surpriseMsg.style.opacity = '0';
+                    setTimeout(() => {
+                        if (surpriseMsg.parentNode) {
+                            document.body.removeChild(surpriseMsg);
+                        }
+                    }, 500);
+                }, 2500);
+            });
+            
+            // If music doesn't auto-play, show message after 3 seconds
+            setTimeout(() => {
+                if (bgMusic.paused) {
+                    musicLoading.innerHTML = `
+                        <div class="loader">
+                            <div style="font-size: 3rem; margin-bottom: 20px;">🎵</div>
+                            <h3>Tap anywhere to start the romantic music</h3>
+                            <p>This music is specially chosen for you, Aarvi</p>
+                        </div>
+                    `;
+                    
+                    document.addEventListener('click', function initAudio() {
+                        bgMusic.play();
+                        playIcon.classList.remove('fa-play');
+                        playIcon.classList.add('fa-pause');
+                        musicLoading.classList.add('hidden');
+                    }, { once: true });
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
